@@ -193,17 +193,13 @@ body {
 
 .income,
 .expenses {
+    width: 47.5rem;
     display: flex;
     flex-direction: column;
 }
 
 .income {
-    width: 47.5rem;
     margin-right: 5rem;
-}
-
-.expenses {
-    width: 47.5rem;
 }
 
 h2 {
@@ -278,7 +274,6 @@ h2 {
     background-color: #FFDAD9 !important;
     cursor: pointer;
     color: #FF5049;
-
 }
 
 .unpaid .item__percentage { box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.1); }
