@@ -122,6 +122,8 @@ var budgetController = (function() {
 var UIController = (function() {
 
     var DOMConstants = {
+        typeIncome: 'inc',
+        typeExpense: 'exp',
         inputType: '.add__type',
         inputDescription: '.add__description',
         inputValue: '.add__value',
@@ -129,11 +131,15 @@ var UIController = (function() {
         incomeContainer: '.income__list',
         expenseContainer: '.expenses__list',
         budgetLabel: '.budget__value',
-        incomeLabel: '.budget__income--value',
-        expensesLabel: '.budget__expenses--value',
+        incomeLabel: '.budget__income--value-text',
+        expensesLabel: '.budget__expenses--value-text',
         percentageLabel: '.budget__expenses--percentage',
         deleteParent: '.container',
         expensePercentageLabel: '.item__percentage'
+    };
+
+    var formatNumber = function(number) {
+        return Math.abs(number).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
     };
 
     return {
@@ -147,7 +153,7 @@ var UIController = (function() {
 
         addItem: function(type, item) {
             var template, container;
-            if (type === 'inc') {
+            if (type === DOMConstants.typeIncome) {
                 container = DOMConstants.incomeContainer;
                 template = '<div class="item" id="inc-%id%"><div class="item__description">%description%</div><div class="item__value">+ %value%</div><div class="item__delete"><button class="item__delete--btn"><i class="ion-ios-close-outline"></i></button></div></div>';
             } else {
@@ -156,7 +162,7 @@ var UIController = (function() {
             }
             var html = template.replace('%id%', item.id);
             html = html.replace('%description%', item.description);
-            html = html.replace('%value%', item.value);
+            html = html.replace('%value%', formatNumber(item.value));
 
             document.querySelector(container).insertAdjacentHTML('beforeend', html);
         },
@@ -176,9 +182,10 @@ var UIController = (function() {
         },
 
         displayBudget: function(budget) {
-            document.querySelector(DOMConstants.budgetLabel).textContent = budget.totalBudget;
-            document.querySelector(DOMConstants.incomeLabel).textContent = budget.totalIncome;
-            document.querySelector(DOMConstants.expensesLabel).textContent = budget.totalExpenses;
+            var budgetSign = budget.totalBudget > 0 ? '+ ' : '- ';
+            document.querySelector(DOMConstants.budgetLabel).textContent = budgetSign + formatNumber(budget.totalBudget);
+            document.querySelector(DOMConstants.incomeLabel).textContent = formatNumber(budget.totalIncome);
+            document.querySelector(DOMConstants.expensesLabel).textContent = formatNumber(budget.totalExpenses);
             if (budget.percentage > 0) {
                 document.querySelector(DOMConstants.percentageLabel).textContent = budget.percentage + '%';
             } else {
