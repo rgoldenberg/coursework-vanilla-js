@@ -97,3 +97,6 @@ typings/
 .sass-cache/
 *.css.map
 css/compiled/
+
+### js build output ###
+**/dist/js
