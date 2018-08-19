@@ -52,10 +52,10 @@ const controlRecipe = async () => {
 
     if (id) {
         state.recipe = new Recipe(id);
-        window.r = state.recipe;
-
+        window.r = state.recipe; //TESTING
         try {
             await state.recipe.getRecipe();
+            state.recipe.parseIngredients();
             state.recipe.calculateServings();
             state.recipe.calculateCookingTime();
         } catch (error) {

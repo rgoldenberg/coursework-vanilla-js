@@ -46,13 +46,47 @@ export default class Recipe {
     parseIngredients() {
         const parsedIngredients = this.ingredients.map(item => {
             let ingredient = item.toLowerCase();
-
             UNIT_MAP.forEach((short, full) => {
                 ingredient = ingredient.replace(full, short);
             });
-
             ingredient = ingredient.replace(/ *\([^)]*\) */g, ' ');
-            return ingredient;
+
+            const ingredientArray = ingredient.split(' ');
+            const unitIndex = ingredientArray.findIndex(el => Array.from(UNIT_MAP.values()).includes(el));
+
+            let ingredientObject;
+            if (unitIndex > -1) {
+                // unit was found
+                const countArray = ingredientArray.slice(0, unitIndex);
+                let count;
+                if (countArray.length === 1) {
+                    count = eval(ingredientArray[0].replace('-', '+'));
+                } else {
+                    count = eval(countArray.join('+'));
+                }
+
+                ingredientObject = {
+                    count,
+                    unit: ingredientArray[unitIndex],
+                    ingredient: ingredientArray.slice(unitIndex + 1).join(' ')
+                };
+            } else if (parseInt(ingredientArray[0])) {
+                // no unit found, but ingredient description starts with a number
+                ingredientObject = {
+                    count: parseInt(ingredientArray[0]),
+                    unit: '',
+                    ingredient: ingredientArray.slice(1).join(' ')
+                };
+            } else if (unitIndex === -1) {
+                // no unit and no number at idx 0
+                ingredientObject = {
+                    count: 1,
+                    unit: '',
+                    ingredient
+                };
+            }
+
+            return ingredientObject;
         });
 
         this.ingredients = parsedIngredients;
