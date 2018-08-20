@@ -1,7 +1,8 @@
 import Search from './models/Search';
-import * as searchView from './views/searchView';
-import { elements, renderLoader, removeLoader } from './views/base';
 import Recipe from './models/Recipe';
+import * as searchView from './views/searchView';
+import * as recipeView from './views/recipeView';
+import { elements, renderLoader, removeLoader } from './views/base';
 
 /* Global state object */
 const state = {};
@@ -51,15 +52,21 @@ const controlRecipe = async () => {
     const id = window.location.hash.replace('#', '');
 
     if (id) {
+        recipeView.removeRecipe();
+        renderLoader(elements.recipe);
         state.recipe = new Recipe(id);
-        window.r = state.recipe; //TESTING
         try {
             await state.recipe.getRecipe();
+
             state.recipe.parseIngredients();
             state.recipe.calculateServings();
             state.recipe.calculateCookingTime();
+
+            recipeView.renderRecipe(state.recipe);
         } catch (error) {
             alert('Error processing recipe: ' + error);
+        } finally {
+            removeLoader();
         }
     }
 };
