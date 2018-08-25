@@ -2,7 +2,20 @@ import { elements } from './base';
 import { Fraction } from 'fractional'
 
 const formatNumber = number => {
-
+    if (number) {
+        const [int, dec] = number.toString().split('.').map(parseInt);
+        if (!dec) {
+            return count;
+        }
+        if (int === 0) {
+            const fraction = new Fraction(number);
+            return `${fraction.numerator}/${fraction.denominator}`;
+        } else {
+            const fraction = new Fraction(number - int);
+            return `${int} ${fraction.numerator}/${fraction.denominator}`;
+        }
+    }
+    return '?';
 };
 
 const renderInrgedient = ingredient => 
