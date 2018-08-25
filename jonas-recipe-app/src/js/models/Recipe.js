@@ -37,8 +37,10 @@ export default class Recipe {
      * time is 15 minutes for every 3 ingredients
      */
     calculateCookingTime() {
-        const intervals = Math.ceil(this.ingredients.length / 3);
-        this.time = intervals * 15;
+        if (this.ingredients) {
+            const intervals = Math.ceil(this.ingredients.length / 3);
+            this.time = intervals * 15;
+        }
     }
 
     calculateServings() {
@@ -47,6 +49,9 @@ export default class Recipe {
     }
 
     parseIngredients() {
+        if (!this.ingredients) {
+            return;
+        }
         const parsedIngredients = this.ingredients.map(item => {
             let ingredient = item.toLowerCase();
             UNIT_MAP.forEach((short, full) => {
