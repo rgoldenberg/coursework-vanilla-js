@@ -54,6 +54,8 @@ const controlRecipe = async () => {
     if (id) {
         recipeView.removeRecipe();
         renderLoader(elements.recipe);
+        if (state.search) searchView.toggleHighlight(id);
+
         state.recipe = new Recipe(id);
         try {
             await state.recipe.getRecipe();
@@ -65,6 +67,7 @@ const controlRecipe = async () => {
             recipeView.renderRecipe(state.recipe);
         } catch (error) {
             alert('Error processing recipe: ' + error);
+            console.log(error.stack);
         } finally {
             removeLoader();
         }
