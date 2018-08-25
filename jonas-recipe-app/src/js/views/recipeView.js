@@ -3,9 +3,10 @@ import { Fraction } from 'fractional'
 
 const formatNumber = number => {
     if (number) {
-        const [int, dec] = number.toString().split('.').map(parseInt);
+        const [int, dec] = number.toString().split('.').map(parseFloat);
+        
         if (!dec) {
-            return count;
+            return number;
         }
         if (int === 0) {
             const fraction = new Fraction(number);
