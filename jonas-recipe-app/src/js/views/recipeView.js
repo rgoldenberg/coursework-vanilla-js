@@ -31,6 +31,12 @@ const renderInrgedient = ingredient =>
         </div>
     </li>`;
 
+const markupIngredients = ingredients => {
+    if (ingredients) {
+        return ingredients.map(renderInrgedient).join('');
+    }
+};
+
 export const renderRecipe = recipe => {
     const markup = `
     <figure class="recipe__fig">
@@ -75,7 +81,7 @@ export const renderRecipe = recipe => {
 
     <div class="recipe__ingredients">
         <ul class="recipe__ingredient-list">    
-        ${recipe.ingredients.map(renderInrgedient).join('')}
+        ${markupIngredients(recipe.ingredients)}
         </ul>
 
         <button class="btn-small recipe__btn">
