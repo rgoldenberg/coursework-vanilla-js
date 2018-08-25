@@ -6,7 +6,10 @@ const UNIT_MAP = new Map(
         ['tablespoons', 'tbsp'], ['tablespoon', 'tbsp'],
         ['ounces', 'oz'], ['ounce', 'oz'],
         ['teaspoons', 'tsp'], ['teaspoon', 'tsp'],
-        ['cups', 'cup'], ['pounds', 'pound']
+        ['cups', 'cup'], ['pounds', 'pound'],
+        // no conversion needed for kg and g, 
+        //but we need to recognize them as units
+        ['kg', 'kg'], ['g', 'g']
     ]
 );
 
