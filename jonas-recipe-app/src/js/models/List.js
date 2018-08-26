@@ -6,12 +6,12 @@ export default class List {
     }
 
     addItem(count, unit, ingredient) {
-        const item = {
+        this.items.push({
             id: uniqid(),
             count, 
             unit,
             ingredient
-        };
+        });
     }
 
     deleteItem(id) {
