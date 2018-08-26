@@ -4,7 +4,8 @@ export const elements = {
     resultsList: document.querySelector('.results__list'),
     searchResult: document.querySelector('.results'),
     searchResultPages: document.querySelector('.results__pages'),
-    recipe: document.querySelector('.recipe')
+    recipe: document.querySelector('.recipe'),
+    shoppingList: document.querySelector('.shopping__list')
 };
 
 export const elementNames = {

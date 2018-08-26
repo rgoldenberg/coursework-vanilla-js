@@ -1,7 +1,9 @@
 import Search from './models/Search';
 import Recipe from './models/Recipe';
+import List from './models/List';
 import * as searchView from './views/searchView';
 import * as recipeView from './views/recipeView';
+import * as listView from './views/listView';
 import { elements, renderLoader, removeLoader } from './views/base';
 
 /* Global state object */
@@ -47,7 +49,6 @@ elements.searchResultPages.addEventListener('click', e => {
 /** 
  * RECIPE CONTROLLER
 */
-
 const controlRecipe = async () => {
     const id = window.location.hash.replace('#', '');
 
@@ -76,6 +77,19 @@ const controlRecipe = async () => {
 
 ['hashchange', 'load'].forEach(event => { window.addEventListener(event, controlRecipe); });
 
+/** 
+ * LIST CONTROLLER
+*/
+const controlList = () => {
+    if (!state.list) {
+        state.list = new List();
+    }
+    state.recipe.ingredients.forEach(el => {
+        const item = state.list.addItem(el.count, el.unit, el.ingredient);
+        listView.renderItem(item);
+    });
+};
+
 elements.recipe.addEventListener('click', event => {
     if (event.target.matches('.btn-decrease, .btn-decrease *')) {
         if (state.recipe.servings > 1) {
@@ -85,5 +99,7 @@ elements.recipe.addEventListener('click', event => {
     } else if (event.target.matches('.btn-increase, .btn-increase *')) {
         state.recipe.updateServings('inc');
         recipeView.updateServingIngredients(state.recipe);
+    } else if (event.target.matches('.recipe__btn--add, .recipe__btn--add *')) {
+        controlList();
     }
 });
