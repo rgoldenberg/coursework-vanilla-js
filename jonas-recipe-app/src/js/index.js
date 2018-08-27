@@ -90,6 +90,18 @@ const controlList = () => {
     });
 };
 
+elements.shoppingList.addEventListener('click', event => {
+    const id = event.target.closest('.shopping__item').dataset.itemid;
+    
+    if (event.target.matches('.shopping__delete, .shopping__delete *')) {
+        state.list.deleteItem(id);
+        listView.removeItem(id);
+    } else if (event.target.matches('.shopping__count-value')) {
+        const value = parseFloat(event.target.value);
+        state.list.updateCount(id, value);
+    }
+});
+
 elements.recipe.addEventListener('click', event => {
     if (event.target.matches('.btn-decrease, .btn-decrease *')) {
         if (state.recipe.servings > 1) {

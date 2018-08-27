@@ -1,6 +1,7 @@
 import { elements } from './base';
 
 export const renderItem = item => {
+    //TODO something's wrong with list item display, fix CSS
     const markup = `
         <li class="shopping__item" data-itemid=${item.id}>
             <div class="shopping__count">
@@ -13,8 +14,7 @@ export const renderItem = item => {
                     <use href="img/icons.svg#icon-circle-with-cross"></use>
                 </svg>
             </button>
-        </li>
-    `;
+        </li>`;
 
     elements.shoppingList.insertAdjacentHTML('beforeend', markup);
 };
