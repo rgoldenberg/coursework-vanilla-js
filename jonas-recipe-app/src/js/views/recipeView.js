@@ -3,16 +3,17 @@ import { Fraction } from 'fractional'
 
 const formatNumber = number => {
     if (number) {
-        const [int, dec] = number.toString().split('.').map(parseFloat);
+        const roundedNumber = Math.round(number * 10000) / 10000;
+        const [int, dec] = roundedNumber.toString().split('.').map(parseFloat);
         
         if (!dec) {
-            return number;
+            return roundedNumber;
         }
         if (int === 0) {
-            const fraction = new Fraction(number);
+            const fraction = new Fraction(roundedNumber);
             return `${fraction.numerator}/${fraction.denominator}`;
         } else {
-            const fraction = new Fraction(number - int);
+            const fraction = new Fraction(roundedNumber - int);
             return `${int} ${fraction.numerator}/${fraction.denominator}`;
         }
     }
