@@ -1,3 +1,5 @@
+const STORAGE_KEY = 'likes';
+
 export default class Likes {
     constructor() {
         this.likes = [];
@@ -11,12 +13,14 @@ export default class Likes {
             img
         };
         this.likes.push(like);
+        this.persist();
         return like;
     }
 
     deleteLike(id) {
         const idx = this.likes.findIndex(like => like.id === id);
         this.likes.splice(idx, 1);
+        this.persist();
     }
 
     isLiked(id) {
@@ -25,5 +29,18 @@ export default class Likes {
 
     getNumberOfLikes() {
         return this.likes.length;
+    }
+
+    // flushes the likes array to localStorage
+    persist() {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(this.likes));
+    }
+
+    // restores likes data from localStorage 
+    restore() {
+        const storedLikes = JSON.parse(localStorage.getItem(STORAGE_KEY));
+        if (storedLikes) {
+            this.likes = storedLikes;
+        }
     }
 }

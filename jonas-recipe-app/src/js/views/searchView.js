@@ -89,9 +89,11 @@ const renderPageButtons = (page, resultsTotal, resultsPerPage) => {
 };
 
 export const renderResults = (recipes, page = 1, resultsPerPage = 10) => {
-    const start = (page - 1) * resultsPerPage;
-    const end = page * resultsPerPage;
-
-    recipes.slice(start, end).forEach(renderRecipe);
-    renderPageButtons(page, recipes.length, resultsPerPage);
+    
+    if (recipes) {
+        const start = (page - 1) * resultsPerPage;
+        const end = page * resultsPerPage;
+        recipes.slice(start, end).forEach(renderRecipe);
+        renderPageButtons(page, recipes.length, resultsPerPage);
+    }
 };

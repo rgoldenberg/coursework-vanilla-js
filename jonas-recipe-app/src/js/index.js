@@ -112,9 +112,6 @@ elements.shoppingList.addEventListener('click', event => {
 /** 
  * LIKES CONTROLLER
 */
-state.likes = new Likes();
-likesView.toggleLikeMenu(state.likes.getNumberOfLikes());
-
 const controlLike = () => {
     if (!state.likes) {
         state.likes = new Likes();
@@ -137,6 +134,15 @@ const controlLike = () => {
     }
     likesView.toggleLikeMenu(state.likes.getNumberOfLikes());
 };
+
+window.addEventListener('load', () => {
+    state.likes = new Likes();
+    state.likes.restore();
+    likesView.toggleLikeMenu(state.likes.getNumberOfLikes());
+    state.likes.likes.forEach(like => {
+        likesView.renderLike(like);
+    });
+});
 
 elements.recipe.addEventListener('click', event => {
     if (event.target.matches('.btn-decrease, .btn-decrease *')) {
