@@ -16,11 +16,13 @@ export const toggleHighlight = id => {
     links.forEach(link => {
         link.classList.remove('results__link--active');
     });
-
-    document.querySelector(`a[href*="${id}"]`).classList.add('results__link--active');
+    const resultLink = document.querySelector(`.results__link[href*="${id}"]`);
+    if (resultLink) {
+        resultLink.classList.add('results__link--active');
+    }
 };
 
-const trimRecipeTitle = (title, limit = 17) => {
+export const trimTitle = (title, limit = 17) => {
     if (title.length > limit) {
         const newTitle = [];
         title.split(' ').reduce((acc, current) => {
@@ -43,7 +45,7 @@ const renderRecipe = recipe => {
                     <img src="${recipe.image_url}" alt="${recipe.title}">
                 </figure>
                 <div class="results__data">
-                    <h4 class="results__name">${trimRecipeTitle(recipe.title)}</h4>
+                    <h4 class="results__name">${trimTitle(recipe.title)}</h4>
                     <p class="results__author">${recipe.publisher}</p>
                 </div>
             </a>

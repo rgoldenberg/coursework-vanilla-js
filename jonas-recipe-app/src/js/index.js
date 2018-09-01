@@ -5,6 +5,7 @@ import Likes from './models/Likes';
 import * as searchView from './views/searchView';
 import * as recipeView from './views/recipeView';
 import * as listView from './views/listView';
+import * as likesView from './views/likesView';
 import { elements, renderLoader, removeLoader } from './views/base';
 
 /* Global state object */
@@ -56,7 +57,9 @@ const controlRecipe = async () => {
     if (id) {
         recipeView.removeRecipe();
         renderLoader(elements.recipe);
-        if (state.search) searchView.toggleHighlight(id);
+        if (state.search) {
+            searchView.toggleHighlight(id);
+        } 
 
         state.recipe = new Recipe(id);
         try {
@@ -66,7 +69,10 @@ const controlRecipe = async () => {
             state.recipe.calculateServings();
             state.recipe.calculateCookingTime();
 
-            recipeView.renderRecipe(state.recipe);
+            recipeView.renderRecipe(
+                state.recipe,
+                state.likes.isLiked(id)
+            );
         } catch (error) {
             alert('Error processing recipe: ' + error);
             console.log(error.stack);
@@ -106,6 +112,9 @@ elements.shoppingList.addEventListener('click', event => {
 /** 
  * LIKES CONTROLLER
 */
+state.likes = new Likes();
+likesView.toggleLikeMenu(state.likes.getNumberOfLikes());
+
 const controlLike = () => {
     if (!state.likes) {
         state.likes = new Likes();
@@ -118,9 +127,15 @@ const controlLike = () => {
             state.recipe.author,
             state.recipe.img,
         );
+
+        likesView.toggleLikeButton(true);
+        likesView.renderLike(like);
     } else {
         state.likes.deleteLike(id);
+        likesView.toggleLikeButton(false);
+        likesView.removeLike(id);
     }
+    likesView.toggleLikeMenu(state.likes.getNumberOfLikes());
 };
 
 elements.recipe.addEventListener('click', event => {
